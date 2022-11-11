@@ -33,7 +33,7 @@ namespace TwitterApp
             {
                 builder.AddSerilog(new LoggerConfiguration()
                     .MinimumLevel.Information()
-                    .WriteTo.File(path: "Logs\\log.txt")
+                    //.WriteTo.File(path: "Logs\\log.txt")
                     .WriteTo.Console()
                     .CreateLogger());
             });
