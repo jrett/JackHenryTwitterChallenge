@@ -116,9 +116,9 @@ namespace TwitterApp
             return intervalStats;
         }
 
-        public List<KeyValuePair<string, int>> GetTopTen()
+        public List<KeyValuePair<string, int>> GetTopList()
         {
-            return _topTenList.GetTopTen();
+            return _topTenList.GetTopList();
         }
 
         private void ProcessHashtag(string hashtag)

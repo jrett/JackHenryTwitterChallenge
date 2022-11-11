@@ -3,6 +3,6 @@
     public interface ITopList
     {
         void Add(string label);
-        List<KeyValuePair<string, int>> GetTopTen();
+        List<KeyValuePair<string, int>> GetTopList();
     }
 }

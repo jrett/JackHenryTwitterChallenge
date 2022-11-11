@@ -134,7 +134,7 @@ namespace TwitterApp
             if (_twitterService != null)
             {
                 TweetIntervalRecord intervalRecord = _twitterService.GetIntervalRecord();
-                var topTen = _twitterService.GetTopTen();
+                var topTen = _twitterService.GetTopList();
 
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine();

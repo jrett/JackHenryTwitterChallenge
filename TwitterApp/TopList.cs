@@ -1,4 +1,6 @@
-﻿namespace TwitterApp
+﻿using Microsoft.Extensions.Configuration;
+
+namespace TwitterApp
 {
     class DecendingComparer<TKey> : IComparer<int>
     {
@@ -15,19 +17,28 @@
         // Use a dictionary to track counts of each strings.
         private Dictionary<string, int> _dictionary = new Dictionary<string, int>();
 
-        public List<KeyValuePair<string, int>> GetTopTen()
+        private readonly IConfiguration _config;
+        private readonly int _listSize;
+
+        public TopList(IConfiguration config)
+        {
+            _config = config;
+            _listSize = _config.GetValue<int>("hashtagListSize");
+        }
+
+        public List<KeyValuePair<string, int>> GetTopList()
         {
             // returns a list of <label, count>
-            List<KeyValuePair<string, int>> result = new List<KeyValuePair<string, int>>(10);
+            List<KeyValuePair<string, int>> result = new List<KeyValuePair<string, int>>(_listSize);
 
             var listEnuerator = _list.GetEnumerator();
-            while (listEnuerator.MoveNext() && result.Count < 10)
+            while (listEnuerator.MoveNext() && result.Count < _listSize)
             {
                 int count = listEnuerator.Current.Key;
                 var labelSet = listEnuerator.Current.Value;
 
                 var labelSetEnumerator = labelSet.GetEnumerator();
-                while (labelSetEnumerator.MoveNext() && result.Count < 10)
+                while (labelSetEnumerator.MoveNext() && result.Count < _listSize)
                 {
                     result.Add(new KeyValuePair<string, int>(labelSetEnumerator.Current, count));
                 }
