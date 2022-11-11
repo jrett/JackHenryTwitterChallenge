@@ -72,7 +72,7 @@ namespace TwitterApp
             sb.AppendLine("will be calculated and reported.");
             sb.AppendLine("The reporting of this information will occur at the specified reporting interval.");
             sb.AppendLine();
-            sb.AppendLine("If the a flag is specified, non ASCII characters will be filtered out of the input");
+            sb.AppendLine("If the asc flag is specified, non ASCII characters will be filtered out of the input");
             sb.AppendLine("hashtag data and excluded from the top ten list.");
             sb.AppendLine();
             sb.AppendLine($"Example Usage:  {System.AppDomain.CurrentDomain.FriendlyName} int=2 asc=true");
@@ -118,18 +118,18 @@ namespace TwitterApp
             _logger.LogInformation("User requested cancellation of processing. Reqeusting cancellation.");
             cancellationTokenSource.Cancel();
             twitterListerTask.Wait(); // Make sure the task completes before shutting down.
-            _logger.LogInformation("Processing has concluded.");
+            _logger.LogInformation("Processing has concluded. Showing final results.");
 
-            PresentIntervalData();
+            PresentIntervalData(null);
 
             return true;
         }
 
         private void IntervalTimer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            PresentIntervalData();
+            PresentIntervalData("Press <Enter> to quit.");
         }
-        private void PresentIntervalData()
+        private void PresentIntervalData(string? closingMessage)
         {
             if (_twitterService != null)
             {
@@ -150,6 +150,11 @@ namespace TwitterApp
                 foreach (var hashtagStat in topTen)
                 {
                     sb.AppendLine($"  There has been [{hashtagStat.Value}] occurances of the following HashTag: [{hashtagStat.Key}].");
+                }
+                sb.AppendLine();
+                if (closingMessage != null)
+                {
+                    sb.AppendLine(closingMessage);
                 }
                 _logger.LogInformation(sb.ToString());
             }
